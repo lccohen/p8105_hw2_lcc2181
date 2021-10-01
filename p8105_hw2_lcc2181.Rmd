@@ -3,4 +3,21 @@ title: "p8105_hw2_lcc2181"
 output: github_document
 ---
 
+## Problem 1
+
+```{r, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+```
+
+Reading and cleaning the Mr. Trash Wheel sheet.
+
+```{r}
+tw_df = read_excel("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  sheet = "Mr. Trash Wheel", 
+  range = "A2:N408") %>%
+  janitor::clean_names() %>% 
+  drop_na(dumpster) %>% 
+  mutate(sports_balls = round(sports_balls, digits = 0))
+```
 
