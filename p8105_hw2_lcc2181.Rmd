@@ -31,7 +31,8 @@ precip_2018_df =
              range = "A2:B15") %>% 
   janitor::clean_names() %>% 
   drop_na(total) %>% 
-  mutate(year ="2018")
+  drop_na(month) %>% 
+  mutate(year = 2018)
                  
 ```
 
@@ -44,6 +45,22 @@ precip_2019_df =
              range = "A2:B15") %>% 
   janitor::clean_names() %>% 
   drop_na(total) %>% 
-  mutate(year ="2019")
+  drop_na(month) %>% 
+  mutate(year = 2019)
 ```
+
+Combining precipitation data sets.
+
+```{r}
+precipitation_df = 
+  full_join(precip_2018_df, precip_2019_df) %>%
+  mutate(month = recode(month, 
+        `1`= "January", `2`= "February", `3`= "March", `4`= "April",
+        `5`= "May", `6`= "June", `7`= "July", `8`= "August", 
+        `9`=  "September", `10`= "October", `11`= "November", 
+        `12`= "December")
+    )
+```
+
+The number of observations in the cleaned Mr. Trash Wheel data is `r nrow(trash_wheel_df)`. There are `r ncol(trash_wheel_df)` variables in the cleaned Mr. Trash Wheel data. Examples of key variables are dumpster, month, year, date, and homes_powered. The median number of sports balls in a dumpster in 2019 was `r median(pull(filter(trash_wheel_df, year == 2019), sports_balls))`. The number of observations in the cleaned 2018 and 2019 precipitation data is `r nrow(precipitation_df)`. There are `r ncol(precipitation_df)` variables in the precipitation data, which are `r names(precipitation_df)`. The total precipitation in 2018 was `r sum(pull(filter(precipitation_df, year == 2018), total))`.
 
