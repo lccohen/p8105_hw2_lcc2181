@@ -147,4 +147,8 @@ fivethirtyeight_df =
 
 ```
 
+The pols-month data contains information about the number of republican and democratic governors, senators, and representatives on the associated date as well as whether the president was republican and democratic. The snp data contains information about the closing values of the S&P stock index on the date associated. The unemployment data contains measurements of percentage of unemployment by month and year. The resulting merged data set has `r nrow(fivethirtyeight_df)` rows and `r ncol(fivethirtyeight_df)` columns. It ranges from the years `r min(pull(fivethirtyeight_df, year))` to `r max(pull(fivethirtyeight_df, year))`. The key variables in the resulting data set include year, month, president, close, and unemployment.
+
+## Problem 3
+
 
