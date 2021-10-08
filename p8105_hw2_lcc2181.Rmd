@@ -116,52 +116,50 @@ The pols-month data contained information about the number of republican and dem
 
 ## Problem 3
 
-Loading and tidying data from Popular_Baby_Names.csv
+Loading and tidying data from Popular_Baby_Names.csv. Abbreviated values for ethnicity are re-coded into their their un-abbreviated form to ensure consistency. Additionally, baby name values are changed to have the same case structure throughout, with only the first letter being capitalized. Finally, duplicate rows are removed.
 
 ```{r}
 baby_names_df =
-  read_csv("data/Popular_Baby_Names.csv") %>% 
+  read_csv("data/Popular_Baby_Names.csv", col_types = "icccii") %>% 
   janitor::clean_names() %>% 
-  mutate(
-    ethnicity = recode(ethnicity, 
+  mutate(ethnicity = recode(ethnicity, 
     "BLACK NON HISP" = "BLACK NON HISPANIC", 
     "WHITE NON HISP" = "WHITE NON HISPANIC", 
     "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER")
   ) %>% 
-  mutate(
-    childs_first_name = str_to_title(childs_first_name)
-  ) %>% 
+  mutate(childs_first_name = str_to_title(childs_first_name)) %>% 
   distinct()
 ```
 
-Table showing rank in popularity of name "Olivia" as female baby name over time
+Producing a table showing rank in popularity of name "Olivia" as female baby name over time. The table contains rows for ethnicity and columns for year.
 
 ```{r}
 filter(baby_names_df, gender == "FEMALE", childs_first_name == "Olivia") %>%
-  pivot_wider(
-   id_cols = c("ethnicity"),
-   names_from = "year_of_birth",
-   values_from = "rank"
+pivot_wider(
+  id_cols = c("ethnicity"),
+  names_from = "year_of_birth",
+  values_from = "rank"
    ) %>% 
-  knitr::kable()
+knitr::kable()
 ```
 
-Table showing most popular name among male children over time
+Producing a table showing the most popular name among male children over time. The table contains rows for ethnicity and columns for year. Most popular name was determined as having a rank of 1.
 
 ```{r}
 filter(baby_names_df, gender == "MALE", rank == 1) %>% 
-  pivot_wider(
-    id_cols = c("ethnicity"),
-    names_from = "year_of_birth",
-    values_from = "childs_first_name"
-    ) %>% 
-  knitr::kable()
+pivot_wider(
+  id_cols = c("ethnicity"),
+  names_from = "year_of_birth",
+  values_from = "childs_first_name"
+  ) %>% 
+knitr::kable()
 ```
 
-Scatter plot showing number of children with name against rank in popularity of that name among male, white non-hispanic children born in 2016
+Producing a scatter plot showing number of children with name against rank of that name among male, white non-hispanic children born in 2016
 
 ```{r}
-filter(baby_names_df, gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016)%>% 
+filter(baby_names_df, 
+  gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016) %>% 
 ggplot(aes(x = rank, y = count)) + geom_point()
 ```
 
