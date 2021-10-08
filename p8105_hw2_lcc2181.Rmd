@@ -5,7 +5,9 @@ output: github_document
 
 ## Problem 1
 
-```{r, echo=FALSE, message=FALSE}
+Loading the packages needed for Problem 1.
+
+```{r, message=FALSE}
 library(tidyverse)
 library(readxl)
 ```
@@ -14,7 +16,7 @@ Reading and cleaning the Mr. Trash Wheel sheet.
 
 ```{r}
 trash_wheel_df = 
-  read_excel("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+  read_excel("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx", 
   sheet = "Mr. Trash Wheel", 
   range = "A2:N408") %>%
   janitor::clean_names() %>% 
@@ -26,7 +28,7 @@ Reading and cleaning precipitation data for 2018.
 
 ```{r}
 precip_2018_df = 
-  read_excel ("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+  read_excel ("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
              sheet = "2018 Precipitation",
              range = "A2:B15") %>% 
   janitor::clean_names() %>% 
@@ -40,7 +42,7 @@ Reading and cleaning precipitation data for 2019.
 
 ```{r}
 precip_2019_df = 
-  read_excel ("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+  read_excel ("data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
              sheet = "2019 Precipitation",
              range = "A2:B15") %>% 
   janitor::clean_names() %>% 
